@@ -17,5 +17,5 @@ public class UserRequest
 
 	public List<RoleRequest> Role { get; set; } = new List<RoleRequest>();
 
-	//public List<int> RoleIds { get; set; } = new List<int>();
+	public List<int> RoleIds { get; set; } = new List<int>();
 }
