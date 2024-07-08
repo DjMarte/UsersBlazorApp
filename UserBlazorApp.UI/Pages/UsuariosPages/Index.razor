@@ -1,0 +1,134 @@
+﻿@page "/Usuario/Index"
+
+@inject UsuarioService usuarioService
+@inject NavigationManager navigation
+
+<PageTitle>Art&iacute;culo Index</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		@*Header*@
+		<div class="card-header text-center">
+			<div class="bg-primary text-white">
+				<h3><strong>Listado de Usuarios</strong></h3>
+			</div>
+		</div>
+		@*Body*@
+		<div class="card-body">
+			@*Labels*@
+			<div class="row">
+				<div class="col-3">
+					<label class="form-label" for="Filtro"><strong>Filtrar por</strong></label>
+				</div>
+				<div class="col-4">
+					<label class="form-label" for="ValorFiltro"><strong>B&uacute;squeda</strong></label>
+				</div>
+			</div>
+			<div class="row">
+				@*Filtro*@
+				<div class="col-3">
+					<InputSelect class="form-select" @bind-Value="Filtro">
+						<option value="" selected>Elija una opción</option>
+						<option value="id"><strong>Id</strong></option>
+						<option value="nombre"><strong>Nombre</strong></option>
+					</InputSelect>
+				</div>
+				@*Búsqueda*@
+				<div class="col-4">
+					<div class="input-group">
+						<input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
+						<button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
+					</div>
+				</div>
+				<div class="col-auto">
+					<button type="button" class="btn btn-outline-secondary bi bi-arrow-counterclockwise" @onclick="Restablecer"> Restablecer</button>
+				</div>
+				<div class="col text-end">
+					<button type="button" class="btn btn-outline-primary ms-2" @onclick="MostrarPantallaCrear">Crear</button>
+				</div>
+			</div>
+			@*Tabla*@
+			<div class="text-center mt-3">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>UserName</th>
+							<th>Rol</th>
+							<th>Email</th>
+							<th>PasswordHash</th>
+							<th>PhoneNumber</th>
+							<th>LockOutEnd</th>
+							<th>Observar</th>
+							<th>Editar</th>
+							<th>Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var usuario in ListaUsuarios) {
+							<tr>
+								<td>@usuario.Id</td>
+								<td>@usuario.UserName</td>
+								<td>@usuario.Role</td>
+								<td>@usuario.Email</td>
+								<td>@usuario.PasswordHash</td>
+								<td>@usuario.PhoneNumber</td>
+								<td>
+									@if (usuario.LockoutEnd.HasValue) {
+										@usuario.LockoutEnd.Value.ToString("d")
+									}
+									else {
+										@("N/A")
+									}
+								</td>
+								<td><button type="button" class="btn btn-outline-primary bi bi-eye-fill" @onclick="()=>MostrarPantallaObservar(usuario.Id)"></button></td>
+								<td><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>MostrarPantallaEditar(usuario.Id)"></button></td>
+								<td><button type="button" class="btn btn-outline-danger bi bi-trash2" @onclick="()=>MostrarPantallaEliminar(usuario.Id)"></button></td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		@*Footer*@
+		<div class="card-footer">
+			<p><strong>Usuarios Agregados: </strong>@ListaUsuarios.Count()</p>
+		</div>
+	</div>
+</div>
+
+@code {
+	public List<AspNetUsers> ListaUsuarios { get; set; } = new List<AspNetUsers>();
+	public string Filtro { get; set; } = string.Empty;
+	public string ValorFiltro { get; set; } = string.Empty;
+
+	protected override async Task OnInitializedAsync() {
+		ListaUsuarios = await usuarioService.GetAllAsync();
+	}
+
+	private async Task Restablecer() {
+		Filtro = string.Empty;
+		ValorFiltro = string.Empty;
+		ListaUsuarios = await usuarioService.GetAllAsync();
+	}
+
+	private void MostrarPantallaCrear() {
+		navigation.NavigateTo("Usuario/Create");
+	}
+
+	private void MostrarPantallaObservar(int id) {
+		navigation.NavigateTo($"Usuario/Details/{id}");
+	}
+
+	private void MostrarPantallaEditar(int id) {
+		navigation.NavigateTo($"Usuario/Edit/{id}");
+	}
+
+	private void MostrarPantallaEliminar(int id) {
+		navigation.NavigateTo($"Usuario/Delete/{id}");
+	}
+
+
+
+	private async Task Buscar() {
+	}
+}

@@ -1,0 +1,104 @@
+﻿@page "/Usuario/Create"
+
+@inject UsuarioService usuarioService
+@inject NavigationManager navigation
+
+<PageTitle>Crear Art&iacute;culo</PageTitle>
+<EditForm Model="Usuario" OnValidSubmit="Guardar" FormName="CrearUsuario">
+	<DataAnnotationsValidator />
+	<div class="container">
+		<div class="card shadow-lg">
+			@*Header*@
+			<div class="card-header text-center">
+				<div class="bg-primary text-white">
+					<h3><strong>Crear Usuario</strong></h3>
+				</div>
+			</div>
+			@*Body*@
+			<div class="card-body">
+				<div class="row">
+					@*Id*@
+					<div class="col-1">
+						<label class="form-label" for="id"><strong>Id</strong></label>
+						<InputNumber class="form-control" id="id" @bind-Value="Usuario.Id" readonly></InputNumber>
+					</div>
+					@*UserName*@
+					<div class="ms-5 col-3">
+						<label class="form-label" for="userName"><strong>UserName</strong></label>
+						<InputText class="form-control" id="userName" @bind-Value="Usuario.UserName"></InputText>
+						@* <ValidationMessage For="(()=> Articulo.Descripcion)" /> *@
+					</div>
+					@*Email*@
+					<div class="ms-5 col-4">
+						<label class="form-label" for="email"><strong>Email</strong></label>
+						<InputText class="form-control" id="email" @bind-Value="Usuario.Email"></InputText>
+						@* <ValidationMessage For="(()=> Articulo.Descripcion)" /> *@
+					</div>
+				</div>
+				@*Segundo Fila*@
+				<div class="row mt-3">
+					@*PassWordHash*@
+					<div class="col-3">
+						<label class="form-label" for="passWordHash"><strong>PassWordHash</strong></label>
+						<InputText class="form-control" id="passWordHash" @bind-Value="Usuario.PasswordHash" />
+						@* <ValidationMessage For="(()=> Articulo.Costo)" /> *@
+					</div>
+					@*PhoneNumber*@
+					<div class="col-3">
+						<label class="form-label" for="phoneNumber"><strong>PhoneNumber</strong></label>
+						<InputText class="form-control" id="phoneNumber" @bind-Value="Usuario.PhoneNumber" />
+						@* <ValidationMessage For="(()=> Articulo.Costo)" /> *@
+					</div>
+					@*LockOutEnd*@
+					<div class="col-3">
+						<label class="form-label" for="lockOutEnd"><strong>PassWordHash</strong></label>
+						<InputDate class="form-control" id="lockOutEnd" @bind-Value="Usuario.LockoutEnd" />
+						@* <ValidationMessage For="(()=> Articulo.Costo)" /> *@
+					</div>
+				</div>
+				@*Detalle de Roles*@
+				<fieldset class="border-primary border border-2 mt-5">
+					@*Body*@
+					<div class="card-body">
+						<section class="row mb-4">
+							<div class="text-center">
+								<h3><strong>Detalle de Roles</strong></h3>
+							</div>
+							@*Roles*@
+							<div class="col-3">
+								<label class="form-label" for="roles"><strong>Roles</strong></label>
+							</div>
+						</section>
+					</div>
+				</fieldset>
+			</div>
+			@*Footer*@
+			<div class="card-footer text-center">
+				<button type="button" class="btn btn-outline-primary" @onclick="Volver">Volver</button>
+				<button type="submit" class="btn btn-outline-success">Guardar</button>
+			</div>
+		</div>
+	</div>
+</EditForm>
+
+<p>@Mensaje</p>
+
+@code {
+    public AspNetUsers Usuario { get; set; } = new AspNetUsers();
+	public List<AspNetRoles> Roles { get; set; } = new List<AspNetRoles>();
+    public string Mensaje { get; set; } = string.Empty;
+
+    private async Task Guardar() {
+        var resultado = await usuarioService.CreateAsync(Usuario);
+        if (resultado != null) {
+            Mensaje = "Usuario creado exitosamente";
+        }
+        else {
+            Mensaje = "Error al crear el usuario";
+        }
+    }
+
+    private void Volver() {
+        navigation.NavigateTo("Usuario/Index");
+    }
+}
