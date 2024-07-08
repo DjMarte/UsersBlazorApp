@@ -32,7 +32,6 @@
 					<div class="ms-5 col-4">
 						<label class="form-label" for="email"><strong>Email</strong></label>
 						<InputText class="form-control" id="email" @bind-Value="Usuario.Email"></InputText>
-						@* <ValidationMessage For="(()=> Articulo.Descripcion)" /> *@
 					</div>
 				</div>
 				@*Segundo Fila*@
@@ -41,19 +40,16 @@
 					<div class="col-3">
 						<label class="form-label" for="passWordHash"><strong>PassWordHash</strong></label>
 						<InputText class="form-control" id="passWordHash" @bind-Value="Usuario.PasswordHash" />
-						@* <ValidationMessage For="(()=> Articulo.Costo)" /> *@
 					</div>
 					@*PhoneNumber*@
 					<div class="col-3">
 						<label class="form-label" for="phoneNumber"><strong>PhoneNumber</strong></label>
 						<InputText class="form-control" id="phoneNumber" @bind-Value="Usuario.PhoneNumber" />
-						@* <ValidationMessage For="(()=> Articulo.Costo)" /> *@
 					</div>
 					@*LockOutEnd*@
 					<div class="col-3">
 						<label class="form-label" for="lockOutEnd"><strong>PassWordHash</strong></label>
 						<InputDate class="form-control" id="lockOutEnd" @bind-Value="Usuario.LockoutEnd" />
-						@* <ValidationMessage For="(()=> Articulo.Costo)" /> *@
 					</div>
 				</div>
 				@*Detalle de Roles*@
