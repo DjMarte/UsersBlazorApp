@@ -9,12 +9,15 @@ public class RoleService(UsersDbContext Contexto) : IApiService<AspNetRoles>
 {
 	public async Task<List<AspNetRoles>> GetAllAsync()
 	{
-		return await Contexto.AspNetRoles.Include(u => u.AspNetRoleClaims).ToListAsync();
+		return await Contexto.AspNetRoles
+			.Include(u => u.AspNetRoleClaims).ToListAsync();
 	}
 
 	public async Task<AspNetRoles> GetIdAsync(int id)
 	{
-		return await Contexto.AspNetRoles.FindAsync(id);
+		return await Contexto.AspNetRoles
+			.Include(r => r.AspNetRoleClaims)
+			.FirstOrDefaultAsync(r => r.Id == id);
 	}
 
 	public async Task<AspNetRoles> AddAsync(AspNetRoles rol)

@@ -9,7 +9,7 @@ public class UserClaimService(UsersDbContext Contexto) : IApiService<AspNetUserC
 {
 	public async Task<List<AspNetUserClaims>> GetAllAsync()
 	{
-		return await Contexto.AspNetUserClaims.Include(u => u.UserId).ToListAsync();
+		return await Contexto.AspNetUserClaims.ToListAsync();
 	}
 
 	public async Task<AspNetUserClaims> GetIdAsync(int id)
