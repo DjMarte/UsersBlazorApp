@@ -10,11 +10,13 @@ public class UserResponse
 
 	public string? Email { get; set; }
 
+	public string? PasswordHash { get; set; }
+
 	public string? PhoneNumber { get; set; }
 
 	public DateTimeOffset? LockoutEnd { get; set; }
 
-	//public List<UserClaimResponse> Claims { get; set; } = new List<UserClaimResponse>();
+	public List<UserClaimResponse> Claims { get; set; } = new List<UserClaimResponse>();
 
 	public List<UserRoleResponse> Roles { get; set; } = new List<UserRoleResponse>();
 }

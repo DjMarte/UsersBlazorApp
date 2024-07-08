@@ -16,4 +16,6 @@ public class UserRequest
 	public DateTimeOffset? LockoutEnd { get; set; }
 
 	public List<RoleRequest> Role { get; set; } = new List<RoleRequest>();
+
+	//public List<int> RoleIds { get; set; } = new List<int>();
 }
